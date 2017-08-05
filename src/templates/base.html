@@ -1,0 +1,24 @@
+<!Doctype html>
+<html lang="en">
+<title> Gadoth's Django examples </title>
+<head>
+    <h1>Gadoth's Test Page</h1>
+</head>
+<body>
+<p>
+    {% if bool_item %}
+       Gadoth context variable test is now {{ bool_item }}
+    <br>
+    <br> Display items from the list:
+    {% for itemr in itemslist %}
+      <br>  {{ itemr }}
+    {% endfor %}
+       <br>
+       <br>
+       Display random variable from the list - {{ itemslist | random }}
+    {% else %}
+      <br>  Bool Item was set to {{ bool_item }}
+    {% endif %}
+</p>
+</body>
+</html>
