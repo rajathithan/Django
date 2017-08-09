@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from restaurants.views import home
+from restaurants.views import home,works,cities,plans
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home),
+    url(r'^works/$', works),
+    url(r'^cities/$', cities),
+    url(r'^plans/$', plans),
 ]

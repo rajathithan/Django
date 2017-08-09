@@ -1,24 +1,27 @@
 <!Doctype html>
 <html lang="en">
-<title> Gadoth's Django examples </title>
+<title>{% block title %}Base{% endblock %}</title>
 <head>
-    <h1>Gadoth's Test Page</h1>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 <body>
-<p>
-    {% if bool_item %}
-       Gadoth context variable test is now {{ bool_item }}
-    <br>
-    <br> Display items from the list:
-    {% for itemr in itemslist %}
-      <br>  {{ itemr }}
-    {% endfor %}
-       <br>
-       <br>
-       Display random variable from the list - {{ itemslist | random }}
-    {% else %}
-      <br>  Bool Item was set to {{ bool_item }}
-    {% endif %}
-</p>
+    {% block page %}{% endblock %}
+    <div>
+        {% block contents %}
+        <p>
+            <ul>
+                 <li><a href='/' >Home</a></li>
+                 <li><a href='/works/' >How it Works</a></li>
+                 <li><a href='/cities/' >Our Cities</a></li>
+                 <li><a href='/plans/' >Sign up</a></li>
+            </ul>
+        </p>
+        {% endblock %}
+        {% block incl %} Author - {% endblock %}
+    </div>
 </body>
 </html>

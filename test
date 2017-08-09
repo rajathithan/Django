@@ -1,0 +1,92 @@
+Sub uploadFileMacro()
+
+    'When there is error it will skip the rest of the code
+    On Error GoTo Error_status
+
+    ' Sharepoint url to which you need to upload the file
+    Dim sharepointUrl
+
+    ' Initialize the xmlhttp object
+    Dim LobjXML As Object
+    Set LobjXML = CreateObject("Microsoft.XMLHTTP")
+
+    ' To read source files as byte
+    Dim binaryByte() As Byte
+    Dim binaryByteData As Variant
+
+    'Get sourcefilelength for binarybyte initialization.
+    Dim sourceFileLength As Long
+
+    'Get the source file along with the path
+    Dim fileNamewithPath As String
+
+    'Create the destination url
+    Dim destinationUrl As String
+
+    'Initilizate the scripting object for getting folder information.
+    Dim objFSO As Object
+    Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+
+    ' use userid and password only if it is required, most of them sharepoint links
+    ' work on single sign on mode inside the organization, if connecting from outside
+    ' the company's network then you might have to provide userid and password
+
+    ' User = InputBox("Username:")
+    ' Password = InputBox("Password:")
+
+    ' Works both for http and https url
+    sharepointUrl = "http or https url"
+
+
+    'If your documents are available in the same path with one direcory level up use this
+    'otherwise specify the location where your source file directory is
+    excelPath = ThisWorkbook.Path
+    sourceFolderPath = excelPath & "\..\Documents\"
+
+    'Get the source folder
+    Set sourceFolder = objFSO.GetFolder(sourceFolderPath)
+
+
+    'iterate through each of those files.
+    For Each f In sourceFolder.Files
+        fileNamewithPath = sourceFolderPath & "\" & f.Name
+
+        'Array length identification
+        sourceFileLength = FileLen(fileNamewithPath) - 1
+
+        'Reinitialize the byte array
+        ReDim binaryByte(sourceFileLength)
+
+        'Open file binary consumption
+        Open fileNamewithPath For Binary As #1
+        Get #1, , binaryByte
+        Close #1
+
+        ' Convert to variant to upload.
+        binaryByteData = binaryByte
+
+        'Determine the destination url, make sure you have a "/" at the
+        'end in sharepoint url
+        destinationUrl = sharepointUrl & f.Name
+
+        ' Upload the data to the server, false means synchronous.
+        ' LobjXML.Open "PUT", destinationUrl, False, User, Password
+        LobjXML.Open "PUT", destinationUrl, False
+
+
+       ' Send the file in.
+        LobjXML.Send binaryByteData
+
+    Next f
+
+      Set LobjXML = Nothing
+      Set objFSO = Nothing
+
+errhandler:
+        If Err.Number Then
+            MsgBox "Error " & Err.Number & ": " & Err.Description, vbCritical, "Error Uploading to SharePoint"
+        End If
+
+End Sub
+

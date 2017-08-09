@@ -1,19 +1,21 @@
 from django.shortcuts import render
 
 def home(request):
-    itemslist = [
-        "eggs",
-        "cornflakes",
-        "coke",
-        "toothpaste",
-        "brush",
-        "spinach"
-    ]
     context = {
-        "bool_item": False,
-        "itemslist": itemslist,
-    }
+            }
+    return render(request,"home.html",context)
 
-    return render(request,"base.html",context)
+def works(request):
+    context = {
+            }
+    return render(request,"works.html",context)
 
+def cities(request):
+    context = {
+            }
+    return render(request,"cities.html",context)
 
+def plans(request):
+    context = {
+            }
+    return render(request,"plans.html",context)
