@@ -2,26 +2,16 @@
 <html lang="en">
 <title>{% block title %}Base{% endblock %}</title>
 <head>
-    {% load staticfiles %}
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+{% include 'snippets/css.html' %}
 </head>
 <body>
-    {% block page %}{% endblock %}
-    <div>
+    <div class="container">
         {% block contents %}
-        <p>
-            <ul>
-                 <li><a href='/' >Home</a></li>
-                 <li><a href='/works/' >How it Works</a></li>
-                 <li><a href='/cities/' >Our Cities</a></li>
-                 <li><a href='/plans/' >Sign up</a></li>
-            </ul>
-        </p>
+        {% include 'snippets/nav.html' %}
         {% endblock %}
-        {% block incl %} Author - {% endblock %}
+        {% include 'snippets/welcome.html' with greetings="Welcome" person="Raj" %}
+        {% block page %}{% endblock %}
     </div>
+{% include 'snippets/js.html' %}
 </body>
 </html>
