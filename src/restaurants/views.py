@@ -1,14 +1,34 @@
-from django.views.generic import TemplateView
+from django.db.models import Q
+from django.views import View
+from django.shortcuts import render
+from django.views.generic import TemplateView, ListView
+from django.http import HttpResponse
+from .models import restaurantLocations
 
-class homeView(TemplateView):
-    template_name = "home.html"
+def restaurant_listView(request):
+    template_name='restaurants/restaurants_list.html'
+    queryset = restaurantLocations.objects.all()
+    context={
+        "object_list" : queryset
+    }
+    return render(request,template_name,context)
 
-class worksView(TemplateView):
-    template_name = "works.html"
+class searchandlistRestaurants(ListView):
+    template_name = 'restaurants/restaurants_list.html'
 
-class citiesView(TemplateView):
-    template_name = "cities.html"
+    def get_queryset(self):
+        slug = self.kwargs.get("slug")
+        if slug:
+            queryset = restaurantLocations.objects.filter(
+                Q(category__iexact = slug)|
+                Q(category__icontains = slug)
+            )
+        else:
+            queryset = restaurantLocations.objects.none()
+        return queryset
 
-class plansView(TemplateView):
-    template_name = "plans.html"
+
+
+
+
 
