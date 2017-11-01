@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.views import View
-from django.shortcuts import render
-from django.views.generic import TemplateView, ListView
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import TemplateView, ListView, DetailView
 from django.http import HttpResponse
 from .models import restaurantLocations
 
@@ -27,8 +27,18 @@ class searchandlistRestaurants(ListView):
             queryset = restaurantLocations.objects.none()
         return queryset
 
+class restaurantDetailview(DetailView):
+    queryset = restaurantLocations.objects.all()
+    template_name = 'restaurants/restaurants_detail.html'
 
+    #def get_context_data(self,*args, **kwargs):
+    #   context = super(restaurantDetailview,self).get_context_data(*args , **kwargs)
+    #   return context
 
+    def get_object(self, *args, **kwargs):
+        rest_id = self.kwargs.get('rest_id')
+        obj = get_object_or_404(restaurantLocations, pk=rest_id)
+        return obj
 
 
 
