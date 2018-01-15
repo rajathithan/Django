@@ -1,21 +1,22 @@
 from django.db.models import Q
 from django.views import View
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView,CreateView
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import restaurantLocations
-from .forms import restaurantFormCreation
+from .forms import restaurantFormCreation, restaurantLocationFormCreation
 
 def restaurant_createView(request):
-    form = restaurantFormCreation(request.POST or None)
+    form = restaurantLocationFormCreation(request.POST or None)
     errors = None
     if form.is_valid():
-        obj = restaurantLocations.objects.create(
-            name = form.cleaned_data.get('name'),
-            location = form.cleaned_data.get('location'),
-            category = form.cleaned_data.get('category')
-        )
-        return HttpResponseRedirect('/restaurants/')
+        form.save()
+        # obj = restaurantLocations.objects.create(
+        #     name = form.cleaned_data.get('name'),
+        #     location = form.cleaned_data.get('location'),
+        #     category = form.cleaned_data.get('category')
+        # )
+        # return HttpResponseRedirect('/restaurants/')
     if form.errors:
         errors = form.errors
     template_name = 'restaurants/forms.html'
@@ -57,4 +58,7 @@ class restaurantDetailview(DetailView):
     #    return obj
 
 
-
+class restaurantCreateView(CreateView):
+    form_class = restaurantLocationFormCreation
+    template_name = 'restaurants/forms.html'
+    success_url = '/restaurants/'
