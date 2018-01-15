@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Add Restaurant{% endblock %}
+
+{% block page %}
+<h3>Add restaurants</h3><br>
+<div class= "col-sm-6">
+
+    {% if errors %}
+    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+      <strong>Oh snap!</strong> See the below error message.
+      {{ errors }}
+    </div>
+    {% endif %}
+
+    <form METHOD="POST"> {% csrf_token %}
+      <div class="form-group form-inline ">
+        {% for field in form %}
+        <fieldset class="control-group">
+            <label class="control-label">{{ field.label }}</label>
+            <div class="controls">
+                {{ field }}
+            </div>
+        </fieldset>
+        {% endfor %}
+      </div>
+      <button type="submit" class="btn btn-primary col-sm-2">Save</button>
+    </form>
+
+</div>
+{% endblock %}

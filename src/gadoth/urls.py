@@ -20,14 +20,16 @@ from restaurants.views import (
     restaurant_listView,
     searchandlistRestaurants,
     restaurantDetailview,
+    restaurant_createView,
 )
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', TemplateView.as_view(template_name="home.html")),
     url(r'^restaurants/$', restaurant_listView),
+    url(r'^restaurants/create/$', restaurant_createView),
     #url(r'^restaurants/(?P<slug>\w+)/$', searchandlistRestaurants.as_view()),
-    url(r'^restaurants/(?P<rest_id>\w+)/$', restaurantDetailview.as_view()),
+    url(r'^restaurants/(?P<slug>[\w-]+)/$', restaurantDetailview.as_view()),
     url(r'^works/$', TemplateView.as_view(template_name="works.html")),
     url(r'^cities/$', TemplateView.as_view(template_name="cities.html")),
     url(r'^plans/$', TemplateView.as_view(template_name="plans.html")),

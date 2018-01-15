@@ -1,1 +1,1 @@
-c:\python
+d:\python\python35

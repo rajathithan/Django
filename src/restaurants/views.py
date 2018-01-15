@@ -2,8 +2,25 @@ from django.db.models import Q
 from django.views import View
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView, ListView, DetailView
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import restaurantLocations
+from .forms import restaurantFormCreation
+
+def restaurant_createView(request):
+    form = restaurantFormCreation(request.POST or None)
+    errors = None
+    if form.is_valid():
+        obj = restaurantLocations.objects.create(
+            name = form.cleaned_data.get('name'),
+            location = form.cleaned_data.get('location'),
+            category = form.cleaned_data.get('category')
+        )
+        return HttpResponseRedirect('/restaurants/')
+    if form.errors:
+        errors = form.errors
+    template_name = 'restaurants/forms.html'
+    context={"form":form,"errors":errors}
+    return render(request,template_name,context)
 
 def restaurant_listView(request):
     template_name='restaurants/restaurants_list.html'
@@ -13,9 +30,8 @@ def restaurant_listView(request):
     }
     return render(request,template_name,context)
 
-class searchandlistRestaurants(ListView):
-    template_name = 'restaurants/restaurants_list.html'
 
+class searchandlistRestaurants(ListView):
     def get_queryset(self):
         slug = self.kwargs.get("slug")
         if slug:
@@ -35,10 +51,10 @@ class restaurantDetailview(DetailView):
     #   context = super(restaurantDetailview,self).get_context_data(*args , **kwargs)
     #   return context
 
-    def get_object(self, *args, **kwargs):
-        rest_id = self.kwargs.get('rest_id')
-        obj = get_object_or_404(restaurantLocations, pk=rest_id)
-        return obj
+    #def get_object(self, *args, **kwargs):
+    #    rest_id = self.kwargs.get('rest_id')
+    #    obj = get_object_or_404(restaurantLocations, pk=rest_id)
+    #    return obj
 
 
 

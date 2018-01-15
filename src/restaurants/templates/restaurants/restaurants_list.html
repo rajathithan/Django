@@ -5,7 +5,7 @@
 <h3> Restuarant List</h3>
 <ul>
     {% for obj in object_list %}
-        <li>{{ obj }}</br>
+        <li><a href="/restaurants/{{obj.slug}}">{{ obj }}</a></br>
             {{ obj.name }},{{ obj.location }}, {{ obj.category }}, {{ obj.created }}, {{ obj.modified }}
         </li>
     {% endfor %}
