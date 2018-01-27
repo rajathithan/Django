@@ -42,6 +42,7 @@ def restaurant_listView(request):
 
 
 class searchandlistRestaurants(ListView):
+    template_name = 'restaurants/restaurants_list.html'
     def get_queryset(self):
         slug = self.kwargs.get("slug")
         if slug:
@@ -50,7 +51,7 @@ class searchandlistRestaurants(ListView):
                 Q(category__icontains = slug)
             )
         else:
-            queryset = restaurantLocations.objects.none()
+            queryset = restaurantLocations.objects.all()
         return queryset
 
 class restaurantDetailview(DetailView):
@@ -70,7 +71,7 @@ class restaurantDetailview(DetailView):
 class restaurantCreateView(LoginRequiredMixin,CreateView):
     form_class = restaurantLocationFormCreation
     template_name = 'restaurants/forms.html'
-    success_url = '/restaurants/'
+    #success_url = '/restaurants/'
     login_url = '/login/'
 
     def form_valid(self, form):

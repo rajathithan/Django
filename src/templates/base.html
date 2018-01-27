@@ -11,7 +11,7 @@
         <h1>Gadoth restaurants</h1>
         {% include 'snippets/nav.html' %}
         {% endblock %}
-        {% include 'snippets/welcome.html' with greetings="Welcome" person="Raj" %}
+        {% include 'snippets/welcome.html' with greetings="Welcome" person=request.user %}
         {% block page %}{% endblock %}
     </div>
 {% include 'snippets/js.html' %}

@@ -1,8 +1,9 @@
 <p>
     <ul class="nav nav-tabs">
-         <li><a href='/' >Home</a></li>
-         <li><a href='/works/' >How it Works</a></li>
-         <li><a href='/cities/' >Our Cities</a></li>
-         <li><a href='/plans/' >Sign up</a></li>
+         <li><a href='{% url "home" %}'>Home</a></li>
+         <li><a href='{% url "htw" %}' >How it Works</a></li>
+         <li><a href='{% url "cities" %}' >Our Cities</a></li>
+         <li><a href='{% url "restaurants:list" %}' >Restaurants</a></li>
+         <li><a href='{% url "signup" %}' >Sign up</a></li>
     </ul>
 </p>
