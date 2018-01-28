@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Item
 from django.views.generic import ListView, DetailView,CreateView, UpdateView
 from .forms import ItemForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
@@ -13,7 +14,7 @@ class Item_DetailView(DetailView):
     def get_queryset(self):
         return Item.objects.filter(user=self.request.user)
 
-class Item_CreateView(CreateView):
+class Item_CreateView(LoginRequiredMixin,CreateView):
     template_name = 'forms.html'
     form_class = ItemForm
     def get_queryset(self):
@@ -29,8 +30,12 @@ class Item_CreateView(CreateView):
         instance.user = self.request.user
         return super(Item_CreateView,self).form_valid(form)
 
+    def get_form_kwargs(self):
+        kwargs = super(Item_CreateView,self).get_form_kwargs()
+        kwargs['user']=self.request.user
+        return kwargs
 
-class Item_UpdateView(UpdateView):
+class Item_UpdateView(LoginRequiredMixin,UpdateView):
     template_name = 'forms.html'
     form_class = ItemForm
     def get_queryset(self):
@@ -40,3 +45,8 @@ class Item_UpdateView(UpdateView):
         context = super(Item_UpdateView,self).get_context_data(*args,**kwargs)
         context['title'] = 'Update Item'
         return context
+
+    def get_form_kwargs(self):
+        kwargs = super(Item_UpdateView,self).get_form_kwargs()
+        kwargs['user']=self.request.user
+        return kwargs
