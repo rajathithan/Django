@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', TemplateView.as_view(template_name="home.html"), name="home"),
     url(r'^login/$', LoginView.as_view(), name='login'),
+    url(r'^items/', include('menu.urls', namespace='menu')),
     url(r'^restaurants/', include('restaurants.urls', namespace='restaurants')),
     url(r'^works/$', TemplateView.as_view(template_name="works.html"), name='htw'),
     url(r'^cities/$', TemplateView.as_view(template_name="cities.html"), name='cities'),
